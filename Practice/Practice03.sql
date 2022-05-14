@@ -35,7 +35,15 @@ order by e.employee_id;
 /*문제2-1.
 문제2에서 부서가 없는 Kimberely(사번 178)까지 표시해 보세요
 (107건)*/
-
+select  e.employee_id "사번",
+        e.first_name "이름",
+        e.salary "급여",
+        d.department_name "부서명",
+        j.job_title "현재업무"        
+from employees e, jobs j, departments d
+where e.job_id = j.job_id
+and e.department_id = d.department_id(+) --OUTER JOIN 데이터가 없어도 출력하게함
+order by e.employee_id;
 
 
 /*문제3.
