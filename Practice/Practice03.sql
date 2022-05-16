@@ -65,6 +65,14 @@ order by l.location_id;
 문제3에서 부서가 없는 도시도 표시합니다.
 (43건)*/
 
+select  l.location_id "도시아이디",
+        l.city "도시명",
+        d.department_name "부서명",
+        d.department_id "부서아이디"
+from departments d, locations l
+where d.location_id(+) = l.location_id --right join
+order by l.location_id;
+
 
 /*문제4.
 지역(regions)에 속한 나라들을 지역이름(region_name), 나라이름(country_name)으로 출력하
@@ -83,6 +91,15 @@ order by "지역이름", "나라이름" desc;
 사번(employee_id), 이름(first_name)과 채용일(hire_date), 매니저이름(first_name), 매니저입
 사일(hire_date)을 조회하세요.
 (37건)*/
+                   
+select  e.employee_id,
+        e.first_name,
+        e.hire_date,
+        m.first_name,
+        m.hire_date 
+from employees e left outer join employees m
+on e.manager_id = m.employee_id
+where e.hire_date < m.hire_date;
 
 
 /*문제6.
@@ -139,3 +156,18 @@ and d.location_id = l.location_id
 and l.country_id = c.country_id
 and c.region_id = r.region_id
 order by e.department_id;
+
+
+/*문제9.
+각 사원(employee)에 대해서 사번(employee_id), 이름(first_name), 부서명
+(department_name), 매니저(manager)의 이름(first_name)을 조회하세요.
+부서가 없는 직원(Kimberely)도 표시합니다.
+(106명)*/
+
+select  e.employee_id,
+        e.first_name,
+        d.department_name,
+        m.first_name
+from employees e, employees m, departments d
+where e.manager_id = m.employee_id
+and e.department_id = d.department_id(+);
