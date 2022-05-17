@@ -122,3 +122,32 @@ from employees e, (select avg(salary) salary,
                     group by department_id) d
 where e.department_id = d.department_id
 and e.salary > d.salary;
+
+
+/*문제8.
+직원 입사일이 11번째에서 15번째의 직원의 사번, 이름, 급여, 입사일을 입사일 순서로 출력
+하세요*/
+select  rn
+        ,employee_id
+        ,first_name
+        ,salary
+        ,hire_date
+from (select rownum rn
+            ,employee_id
+            ,first_name
+            ,salary
+            ,hire_date
+      from (select employee_id
+                  ,first_name
+                  ,salary
+                  ,hire_date
+            from employees
+            order by hire_date)
+    )
+where rn between 11 and 15;
+
+
+
+
+
+
