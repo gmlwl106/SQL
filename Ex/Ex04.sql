@@ -34,3 +34,33 @@ from employees
 where salary in (select salary
                 from employees
                 where department_id = '110'); --겹치는 조건이 여러개
+                
+
+--각 부서별로 최고급여를 받는 사원 출력
+select  first_name,
+        department_id,
+        salary
+from employees
+where (department_id, salary) in (select  department_id,
+                                          max(salary)
+                                 from employees
+                                 group by department_id);
+                                 
+
+--부서번호가 110인 직원의 급여보다 큰 모든 직원의 사번, 이름, 급여를 출력(or연산)
+select  employee_id,
+        first_name,
+        salary
+from employees
+where salary >any (select salary
+                from employees
+                where department_id = 110);
+                
+--부서번호가 110인 직원의 급여보다 큰 모든 직원의 사번, 이름, 급여를 출력(and 연산)
+select  employee_id,
+        first_name,
+        salary
+from employees
+where salary >all (select salary
+                from employees
+                where department_id = 110);
