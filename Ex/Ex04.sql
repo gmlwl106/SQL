@@ -64,3 +64,28 @@ from employees
 where salary >all (select salary
                 from employees
                 where department_id = 110);
+                
+
+--각 부서별로 최고급여를 받는 사원을 출력
+select  department_id,
+        employee_id,
+        first_name,
+        salary
+from employees
+where (department_id, salary) in (select department_id,
+                                         max(salary)
+                                 from employees
+                                 group by department_id);
+                                 
+--테이블에서 조인
+--최고 급여를 찾는 서브쿼리문을 s 테이블로 만들어서 e와 조인
+select  e.department_id,
+        e.employee_id,
+        e.first_name,
+        e.salary
+from employees e, (select department_id,
+                          max(salary) salary
+                    from employees
+                    group by department_id) s
+where e.department_id = s.department_id
+and e.salary = s.salary;
