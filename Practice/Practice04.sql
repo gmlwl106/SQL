@@ -45,11 +45,11 @@ order by salary desc;
 -출력내용은 매니저아이디, 매니저이름(first_name), 매니저별평균급여, 매니저별최소급여, 매
 니저별최대급여 입니다.
 (9건)*/
-select  m_id
-        ,name
-        ,round(avg(sal),1)
-        ,min(sal)
-        ,max(sal)
+select  m_id "매니저아이디"
+        ,name "매니저이름"
+        ,round(avg(sal),1) "매니저별평균급여"
+        ,min(sal) "매니저별최소급여"
+        ,max(sal) "매니저별최대급여"
 from (select  m.employee_id m_id
                 ,e.salary sal
                 ,m.first_name name
