@@ -45,6 +45,20 @@ order by salary desc;
 -출력내용은 매니저아이디, 매니저이름(first_name), 매니저별평균급여, 매니저별최소급여, 매
 니저별최대급여 입니다.
 (9건)*/
+select  m_id
+        ,name
+        ,round(avg(sal),1)
+        ,min(sal)
+        ,max(sal)
+from (select  m.employee_id m_id
+                ,e.salary sal
+                ,m.first_name name
+        from employees e, employees m
+        where e.manager_id = m.employee_id
+        and e.hire_date >= '05/01/01')
+group by m_id, name
+having avg(sal) >= 5000
+order by avg(sal) desc;
 
 
 
