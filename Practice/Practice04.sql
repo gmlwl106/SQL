@@ -53,7 +53,8 @@ select  employee_id
 from employees
 where salary <any (select salary
                     from employees
-                    where job_id = 'ST_MAN');
+                    where job_id = 'ST_MAN')
+order by salary desc;
                     
                     
 /*문제5. 
@@ -62,4 +63,79 @@ where salary <any (select salary
 단 조회결과는 급여의 내림차순으로 정렬되어 나타나야 합니다. 
 조건절비교, 테이블조인 2가지 방법으로 작성하세요
 (11건)*/
+--조건절비교
+select   employee_id
+        ,first_name
+        ,salary
+        ,department_id
+from employees
+where (department_id, salary) in (select department_id
+                                        ,max(salary)
+                                    from employees
+                                    group by department_id)
+order by salary desc;
+                                    
+--테이블조인
+select   e.employee_id
+        ,e.first_name
+        ,e.salary
+        ,e.department_id
+from employees e, (select department_id
+                        ,max(salary) salary
+                    from employees
+                    group by department_id) m
+where e.department_id = m.department_id
+and e.salary = m.salary
+order by e.salary desc;
 
+
+/*문제6.
+각 업무(job) 별로 연봉(salary)의 총합을 구하고자 합니다. 
+연봉 총합이 가장 높은 업무부터 업무명(job_title)과 연봉 총합을 조회하시오
+(19건)*/
+select  j.job_title
+        ,e.salary
+from jobs j, (select  job_id
+                    ,sum(salary) salary
+            from employees
+            group by job_id) e
+where j.job_id = e.job_id;
+
+
+/*문제7.
+자신의 부서 평균 급여보다 연봉(salary)이 많은 직원의 직원번호(employee_id), 이름
+(first_name)과 급여(salary)을 조회하세요
+(38건)*/
+select  e.employee_id
+        ,e.first_name
+        ,e.salary
+from employees e, (select  department_id
+                            ,avg(salary) salary
+                    from employees
+                    group by department_id) d
+where e.department_id = d.department_id
+and e.salary > d.salary;
+
+
+/*문제8.
+직원 입사일이 11번째에서 15번째의 직원의 사번, 이름, 급여, 입사일을 입사일 순서로 출력
+하세요*/
+
+select  rn
+        ,employee_id
+        ,first_name
+        ,salary
+        ,hire_date
+from (select  rownum rn
+                ,employee_id
+                ,first_name
+                ,salary
+                ,hire_date
+        from (select  employee_id
+                        ,first_name
+                        ,salary
+                        ,hire_date
+                from employees
+                order by hire_date))
+where rn >= 11
+and rn <= 15;
