@@ -79,6 +79,7 @@ where author_name = '강풀';
 --author 테이블에서 기안84 데이터를 삭제해 보세요
 delete from author
 where author_name = '기안84';
+--이유:book 테이블이 author 테이블의 author_id로 fk 설정되어있어서 book에서 기안84의 author_id 레코드가 지워지지않는 한 삭제되지않는다
 
 
 --author 테이블 조회
