@@ -1,8 +1,8 @@
 --기존에 있던 author, book, 시퀀스 삭제
-drop table author;
-drop table book;
 drop sequence seq_author_id;
 drop sequence seq_book_id;
+drop table book;
+drop table author;
 
 
 --author 테이블 생성
